@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArbTrex</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f7f6;
+      color: #17211f;
+    }
+
+    .app {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .header {
+      background: #087f5b;
+      color: white;
+      padding: 24px;
+      border-radius: 18px;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .header p {
+      margin-bottom: 0;
+      opacity: .9;
+    }
+
+    .balance {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .balance small {
+      color: #777;
+    }
+
+    .amount {
+      font-size: 32px;
+      font-weight: bold;
+      margin-top: 7px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .stat {
+      background: white;
+      padding: 16px;
+      border-radius: 15px;
+    }
+
+    .stat small {
+      color: #777;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 20px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    button {
+      border: none;
+      padding: 17px 10px;
+      border-radius: 14px;
+      background: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: #087f5b;
+      color: white;
+    }
+
+    .message {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <h1>ArbTrex</h1>
+    <p>Account Dashboard</p>
+  </div>
+
+  <div class="balance">
+    <small>Available Balance</small>
+    <div class="amount">$0.00</div>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <small>Invested Capital</small>
+      <strong>$0.00</strong>
+    </div>
+
+    <div class="stat">
+      <small>Realized P/L</small>
+      <strong>$0.00</strong>
+    </div>
+
+  </div>
+
+  <div class="buttons">
+
+    <button class="primary" onclick="showMessage('Deposit')">
+      💰 Deposit
+    </button>
+
+    <button onclick="showMessage('Withdraw')">
+      💸 Withdraw
+    </button>
+
+    <button onclick="showMessage('Investments')">
+      📊 Investments
+    </button>
+
+    <button onclick="showMessage('Trade Activity')">
+      📈 Trade Activity
+    </button>
+
+    <button onclick="showMessage('Referral')">
+      👥 Referral
+    </button>
+
+    <button onclick="showMessage('Support')">
+      🎧 Support
+    </button>
+
+  </div>
+
+  <div class="message" id="message">
+    Demo mode — no transactions are processed.
+  </div>
+
+</div>
+
+<script>
+function showMessage(section) {
+  document.getElementById("message").innerText =
+    section + " selected — demo mode.";
+}
+</script>
+
+</body>
+</html>
