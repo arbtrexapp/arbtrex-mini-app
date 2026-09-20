@@ -1,184 +1,688 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ArbTrex</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ArbTrex</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
 
-    body {
-      margin: 0;
-      background: #f4f7f6;
-      color: #17211f;
-    }
+body{
+margin:0;
+background:#f4f7f6;
+color:#17211f;
+}
 
-    .app {
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-    }
+.app{
+max-width:520px;
+margin:auto;
+padding:16px;
+}
 
-    .header {
-      background: #087f5b;
-      color: white;
-      padding: 24px;
-      border-radius: 18px;
-      margin-bottom: 15px;
-    }
+.screen{display:none}
+.screen.active{display:block}
 
-    .header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
+.logo{
+text-align:center;
+padding:30px 10px 20px;
+}
 
-    .header p {
-      margin-bottom: 0;
-      opacity: .9;
-    }
+.logo h1{
+margin:0;
+font-size:34px;
+color:#087f5b;
+}
 
-    .balance {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
-    }
+.logo p{
+color:#777;
+margin-top:8px;
+}
 
-    .balance small {
-      color: #777;
-    }
+.card{
+background:white;
+border-radius:18px;
+padding:20px;
+margin-bottom:14px;
+box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
 
-    .amount {
-      font-size: 32px;
-      font-weight: bold;
-      margin-top: 7px;
-    }
+h2,h3{margin-top:0}
 
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
+input{
+width:100%;
+padding:15px;
+border:1px solid #ddd;
+border-radius:12px;
+margin:7px 0;
+font-size:16px;
+outline:none;
+}
 
-    .stat {
-      background: white;
-      padding: 16px;
-      border-radius: 15px;
-    }
+input:focus{
+border-color:#087f5b;
+}
 
-    .stat small {
-      color: #777;
-    }
+button{
+width:100%;
+padding:15px;
+border:0;
+border-radius:12px;
+margin-top:8px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+background:#eee;
+}
 
-    .stat strong {
-      display: block;
-      margin-top: 6px;
-      font-size: 20px;
-    }
+button.primary{
+background:#087f5b;
+color:white;
+}
 
-    .buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+button.link{
+background:none;
+color:#087f5b;
+}
 
-    button {
-      border: none;
-      padding: 17px 10px;
-      border-radius: 14px;
-      background: white;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
 
-    button.primary {
-      background: #087f5b;
-      color: white;
-    }
+.top strong{
+font-size:22px;
+color:#087f5b;
+}
 
-    .message {
-      text-align: center;
-      color: #777;
-      font-size: 13px;
-      margin-top: 20px;
-    }
-  </style>
+.balance{
+background:#087f5b;
+color:white;
+border-radius:20px;
+padding:22px;
+margin-bottom:14px;
+}
+
+.balance small{opacity:.85}
+
+.amount{
+font-size:34px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.stat{
+background:white;
+border-radius:15px;
+padding:17px;
+}
+
+.stat small{color:#777}
+
+.stat strong{
+display:block;
+font-size:20px;
+margin-top:6px;
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:14px;
+}
+
+.actions button{
+margin:0;
+background:white;
+}
+
+.nav{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:7px;
+margin-top:15px;
+}
+
+.nav button{
+margin:0;
+padding:12px 5px;
+font-size:12px;
+}
+
+.notice{
+font-size:13px;
+color:#777;
+text-align:center;
+margin:18px 5px;
+}
+
+.hidden{display:none}
+
+.plan{
+border:1px solid #ddd;
+border-radius:15px;
+padding:17px;
+margin-bottom:10px;
+}
+
+.plan strong{
+font-size:19px;
+}
+
+.success{
+background:#e7f7ef;
+color:#087f5b;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+margin-bottom:10px;
+}
+
+@media(max-width:380px){
+.actions{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <div class="header">
-    <h1>ArbTrex</h1>
-    <p>Account Dashboard</p>
-  </div>
+<!-- WELCOME -->
+<section id="welcome" class="screen active">
 
-  <div class="balance">
-    <small>Available Balance</small>
-    <div class="amount">$0.00</div>
-  </div>
+<div class="logo">
+<h1>ArbTrex</h1>
+<p>Account & Trading Dashboard</p>
+</div>
 
-  <div class="stats">
+<div class="card">
 
-    <div class="stat">
-      <small>Invested Capital</small>
-      <strong>$0.00</strong>
-    </div>
+<h2>Welcome</h2>
 
-    <div class="stat">
-      <small>Realized P/L</small>
-      <strong>$0.00</strong>
-    </div>
+<p>
+Access your ArbTrex account through Telegram.
+</p>
 
-  </div>
+<button class="primary" onclick="show('login')">
+Continue with Telegram
+</button>
 
-  <div class="buttons">
+<button onclick="show('login')">
+Login with Email
+</button>
 
-    <button class="primary" onclick="showMessage('Deposit')">
-      💰 Deposit
-    </button>
-
-    <button onclick="showMessage('Withdraw')">
-      💸 Withdraw
-    </button>
-
-    <button onclick="showMessage('Investments')">
-      📊 Investments
-    </button>
-
-    <button onclick="showMessage('Trade Activity')">
-      📈 Trade Activity
-    </button>
-
-    <button onclick="showMessage('Referral')">
-      👥 Referral
-    </button>
-
-    <button onclick="showMessage('Support')">
-      🎧 Support
-    </button>
-
-  </div>
-
-  <div class="message" id="message">
-    Demo mode — no transactions are processed.
-  </div>
+<button class="link" onclick="show('register')">
+Create New Account
+</button>
 
 </div>
 
+<p class="notice">
+Demo interface. No financial transaction is processed in this prototype.
+</p>
+
+</section>
+
+
+<!-- LOGIN -->
+<section id="login" class="screen">
+
+<div class="logo">
+<h1>ArbTrex</h1>
+<p>Login to your account</p>
+</div>
+
+<div class="card">
+
+<h2>Login</h2>
+
+<input id="loginEmail" type="email" placeholder="Email address">
+
+<input id="loginPassword" type="password" placeholder="Password">
+
+<button class="primary" onclick="login()">
+Login
+</button>
+
+<button class="link" onclick="show('forgot')">
+Forgot Password?
+</button>
+
+<button class="link" onclick="show('register')">
+Create Account
+</button>
+
+<button onclick="show('welcome')">
+Back
+</button>
+
+</div>
+
+</section>
+
+
+<!-- REGISTER -->
+<section id="register" class="screen">
+
+<div class="logo">
+<h1>ArbTrex</h1>
+<p>Create your account</p>
+</div>
+
+<div class="card">
+
+<h2>Registration</h2>
+
+<input id="regName" placeholder="Full name">
+
+<input id="regEmail" type="email" placeholder="Email address">
+
+<input id="regPhone" type="tel" placeholder="Phone number">
+
+<input id="regPassword" type="password" placeholder="Password">
+
+<input id="regConfirm" type="password" placeholder="Confirm password">
+
+<input id="regReferral" placeholder="Referral code (optional)">
+
+<button class="primary" onclick="register()">
+Create Account
+</button>
+
+<button class="link" onclick="show('login')">
+Already have an account? Login
+</button>
+
+</div>
+
+</section>
+
+
+<!-- FORGOT PASSWORD -->
+<section id="forgot" class="screen">
+
+<div class="logo">
+<h1>ArbTrex</h1>
+<p>Password recovery</p>
+</div>
+
+<div class="card">
+
+<h2>Forgot Password?</h2>
+
+<input type="email" placeholder="Enter your email">
+
+<button class="primary" onclick="alert('Demo: password recovery request submitted.')">
+Send Recovery Link
+</button>
+
+<button onclick="show('login')">
+Back to Login
+</button>
+
+</div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="screen">
+
+<div class="top">
+<strong>ArbTrex</strong>
+<button style="width:auto;padding:9px 13px" onclick="show('profile')">
+👤 Account
+</button>
+</div>
+
+<div class="balance">
+<small>Available Balance</small>
+<div class="amount">$0.00</div>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<small>Invested Capital</small>
+<strong>$0.00</strong>
+</div>
+
+<div class="stat">
+<small>Realized P/L</small>
+<strong>$0.00</strong>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="primary" onclick="show('deposit')">
+💰 Deposit
+</button>
+
+<button onclick="show('withdraw')">
+💸 Withdraw
+</button>
+
+<button onclick="show('investments')">
+📊 Investments
+</button>
+
+<button onclick="show('trades')">
+📈 Trade Activity
+</button>
+
+<button onclick="show('referral')">
+👥 Referral
+</button>
+
+<button onclick="show('support')">
+🎧 Support
+</button>
+
+</div>
+
+<div class="nav">
+<button onclick="show('dashboard')">🏠 Home</button>
+<button onclick="show('investments')">📊 Plans</button>
+<button onclick="show('trades')">📈 Trades</button>
+<button onclick="show('profile')">👤 Profile</button>
+</div>
+
+<p class="notice">
+Demo mode — account balances and transactions are not connected to a backend.
+</p>
+
+</section>
+
+
+<!-- DEPOSIT -->
+<section id="deposit" class="screen">
+
+<div class="card">
+
+<h2>💰 Deposit</h2>
+
+<p>Select your preferred deposit method.</p>
+
+<div class="plan">
+<strong>USDT</strong>
+<p>Cryptocurrency deposit</p>
+<button class="primary" onclick="demo('Deposit')">
+Continue
+</button>
+</div>
+
+<button onclick="show('dashboard')">Back</button>
+
+</div>
+
+</section>
+
+
+<!-- WITHDRAW -->
+<section id="withdraw" class="screen">
+
+<div class="card">
+
+<h2>💸 Withdraw</h2>
+
+<p>Withdrawal method</p>
+
+<div class="plan">
+<strong>USDT TRC20</strong>
+<p>Withdrawal network</p>
+
+<input placeholder="Amount">
+
+<input placeholder="USDT TRC20 wallet address">
+
+<button class="primary" onclick="demo('Withdrawal')">
+Continue
+</button>
+
+</div>
+
+<button onclick="show('dashboard')">Back</button>
+
+</div>
+
+</section>
+
+
+<!-- INVESTMENTS -->
+<section id="investments" class="screen">
+
+<div class="card">
+
+<h2>📊 Investment Plans</h2>
+
+<div class="plan">
+<strong>Starter</strong>
+<p>Minimum: $100</p>
+<p>Demo plan information</p>
+<button class="primary" onclick="demo('Starter plan')">
+View Plan
+</button>
+</div>
+
+<div class="plan">
+<strong>Growth</strong>
+<p>Minimum: $500</p>
+<p>Demo plan information</p>
+<button class="primary" onclick="demo('Growth plan')">
+View Plan
+</button>
+</div>
+
+<div class="plan">
+<strong>Advanced</strong>
+<p>Minimum: $1,000</p>
+<p>Demo plan information</p>
+<button class="primary" onclick="demo('Advanced plan')">
+View Plan
+</button>
+</div>
+
+<button onclick="show('dashboard')">Back</button>
+
+</div>
+
+</section>
+
+
+<!-- TRADES -->
+<section id="trades" class="screen">
+
+<div class="card">
+
+<h2>📈 Trade Activity</h2>
+
+<p>No trade activity available.</p>
+
+<div class="plan">
+<strong>Activity History</strong>
+<p>Your trading activity will appear here when connected to the backend.</p>
+</div>
+
+<button onclick="show('dashboard')">Back</button>
+
+</div>
+
+</section>
+
+
+<!-- REFERRAL -->
+<section id="referral" class="screen">
+
+<div class="card">
+
+<h2>👥 Referral</h2>
+
+<p>Invite people using your referral code.</p>
+
+<div class="plan">
+<strong>Your Referral Code</strong>
+<p>ARBTREX-DEMO</p>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<small>Referrals</small>
+<strong>0</strong>
+</div>
+
+<div class="stat">
+<small>Earnings</small>
+<strong>$0.00</strong>
+</div>
+
+</div>
+
+<button class="primary" onclick="demo('Referral')">
+Copy Referral Link
+</button>
+
+<button onclick="show('dashboard')">Back</button>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="screen">
+
+<div class="card">
+
+<h2>👤 My Account</h2>
+
+<input placeholder="Full name" value="Demo User">
+
+<input placeholder="Email">
+
+<input placeholder="Phone number">
+
+<button class="primary" onclick="demo('Profile update')">
+Save Changes
+</button>
+
+<button onclick="show('dashboard')">
+Back to Dashboard
+</button>
+
+</div>
+
+</section>
+
+
+<!-- SUPPORT -->
+<section id="support" class="screen">
+
+<div class="card">
+
+<h2>🎧 Support</h2>
+
+<p>How can we help you?</p>
+
+<input placeholder="Subject">
+
+<textarea style="width:100%;padding:15px;border:1px solid #ddd;border-radius:12px;margin-top:7px;min-height:120px" placeholder="Describe your request"></textarea>
+
+<button class="primary" onclick="demo('Support request')">
+Send Request
+</button>
+
+<button onclick="show('dashboard')">
+Back
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+
 <script>
-function showMessage(section) {
-  document.getElementById("message").innerText =
-    section + " selected — demo mode.";
+
+function show(id){
+
+document.querySelectorAll('.screen')
+.forEach(function(screen){
+screen.classList.remove('active');
+});
+
+document.getElementById(id)
+.classList.add('active');
+
+window.scrollTo(0,0);
 }
+
+
+function login(){
+
+var email=document.getElementById('loginEmail').value;
+var password=document.getElementById('loginPassword').value;
+
+if(!email || !password){
+
+alert('Please enter your email and password.');
+return;
+
+}
+
+show('dashboard');
+
+}
+
+
+function register(){
+
+var name=document.getElementById('regName').value;
+var email=document.getElementById('regEmail').value;
+var phone=document.getElementById('regPhone').value;
+var password=document.getElementById('regPassword').value;
+var confirm=document.getElementById('regConfirm').value;
+
+if(!name || !email || !phone || !password){
+
+alert('Please complete all required fields.');
+return;
+
+}
+
+if(password !== confirm){
+
+alert('Passwords do not match.');
+return;
+
+}
+
+alert('Demo account created successfully.');
+
+show('dashboard');
+
+}
+
+
+function demo(action){
+
+alert(action + ' is currently in demo mode.');
+
+}
+
 </script>
 
 </body>
